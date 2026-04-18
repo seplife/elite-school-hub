@@ -14,16 +14,174 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      classes: {
+        Row: {
+          annee_scolaire: string
+          capacite: number
+          created_at: string
+          id: string
+          niveau: Database["public"]["Enums"]["niveau_scolaire"]
+          nom: string
+          salle: string | null
+          serie: Database["public"]["Enums"]["serie_scolaire"]
+          updated_at: string
+        }
+        Insert: {
+          annee_scolaire: string
+          capacite?: number
+          created_at?: string
+          id?: string
+          niveau: Database["public"]["Enums"]["niveau_scolaire"]
+          nom: string
+          salle?: string | null
+          serie?: Database["public"]["Enums"]["serie_scolaire"]
+          updated_at?: string
+        }
+        Update: {
+          annee_scolaire?: string
+          capacite?: number
+          created_at?: string
+          id?: string
+          niveau?: Database["public"]["Enums"]["niveau_scolaire"]
+          nom?: string
+          salle?: string | null
+          serie?: Database["public"]["Enums"]["serie_scolaire"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      eleves: {
+        Row: {
+          adresse: string | null
+          classe_id: string | null
+          created_at: string
+          date_naissance: string
+          id: string
+          lieu_naissance: string | null
+          matricule: string
+          nom: string
+          parent_id: string | null
+          photo_url: string | null
+          prenom: string
+          sexe: Database["public"]["Enums"]["sexe_eleve"]
+          statut: string
+          updated_at: string
+        }
+        Insert: {
+          adresse?: string | null
+          classe_id?: string | null
+          created_at?: string
+          date_naissance: string
+          id?: string
+          lieu_naissance?: string | null
+          matricule: string
+          nom: string
+          parent_id?: string | null
+          photo_url?: string | null
+          prenom: string
+          sexe: Database["public"]["Enums"]["sexe_eleve"]
+          statut?: string
+          updated_at?: string
+        }
+        Update: {
+          adresse?: string | null
+          classe_id?: string | null
+          created_at?: string
+          date_naissance?: string
+          id?: string
+          lieu_naissance?: string | null
+          matricule?: string
+          nom?: string
+          parent_id?: string | null
+          photo_url?: string | null
+          prenom?: string
+          sexe?: Database["public"]["Enums"]["sexe_eleve"]
+          statut?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "eleves_classe_id_fkey"
+            columns: ["classe_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string
+          id: string
+          phone: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          full_name: string
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          full_name?: string
+          id?: string
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
+      is_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
-      [_ in never]: never
+      app_role:
+        | "super_admin"
+        | "admin"
+        | "enseignant"
+        | "comptable"
+        | "parent"
+        | "eleve"
+      niveau_scolaire: "6e" | "5e" | "4e" | "3e" | "2nde" | "1ere" | "Tle"
+      serie_scolaire: "Aucune" | "A" | "C" | "D" | "G"
+      sexe_eleve: "M" | "F"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +308,18 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: [
+        "super_admin",
+        "admin",
+        "enseignant",
+        "comptable",
+        "parent",
+        "eleve",
+      ],
+      niveau_scolaire: ["6e", "5e", "4e", "3e", "2nde", "1ere", "Tle"],
+      serie_scolaire: ["Aucune", "A", "C", "D", "G"],
+      sexe_eleve: ["M", "F"],
+    },
   },
 } as const
