@@ -68,7 +68,14 @@ const Classes = () => {
       return;
     }
     setSubmitting(true);
-    const { error } = await supabase.from("classes").insert(parsed.data);
+    const { error } = await supabase.from("classes").insert({
+      nom: parsed.data.nom,
+      niveau: parsed.data.niveau,
+      serie: parsed.data.serie,
+      salle: parsed.data.salle,
+      capacite: parsed.data.capacite,
+      annee_scolaire: parsed.data.annee_scolaire,
+    });
     setSubmitting(false);
     if (error) {
       toast.error(error.message.includes("duplicate") ? "Cette classe existe déjà pour cette année" : error.message);
