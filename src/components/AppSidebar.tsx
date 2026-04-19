@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { LayoutDashboard, GraduationCap, School, Users, LogOut, UserCircle2 } from "lucide-react";
+import { LayoutDashboard, GraduationCap, School, Users, LogOut, UserCircle2, ClipboardList, ShieldCheck } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -15,8 +15,9 @@ interface NavItem {
 const items: NavItem[] = [
   { to: "/app", label: "Tableau de bord", icon: LayoutDashboard, roles: ["admin", "parent", "staff"] },
   { to: "/app/eleves", label: "Élèves", icon: GraduationCap, roles: ["admin", "parent", "staff"] },
+  { to: "/app/inscriptions", label: "Inscriptions", icon: ClipboardList, roles: ["admin"] },
   { to: "/app/classes", label: "Classes", icon: School, roles: ["admin", "staff"] },
-  { to: "/app/utilisateurs", label: "Utilisateurs", icon: Users, roles: ["admin"] },
+  { to: "/app/utilisateurs", label: "Utilisateurs", icon: ShieldCheck, roles: ["admin"] },
 ];
 
 export const AppSidebar = () => {
