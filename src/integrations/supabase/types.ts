@@ -179,6 +179,7 @@ export type Database = {
         | "comptable"
         | "parent"
         | "eleve"
+        | "educateur"
       niveau_scolaire: "6e" | "5e" | "4e" | "3e" | "2nde" | "1ere" | "Tle"
       serie_scolaire: "Aucune" | "A" | "C" | "D" | "G"
       sexe_eleve: "M" | "F"
@@ -316,6 +317,7 @@ export const Constants = {
         "comptable",
         "parent",
         "eleve",
+        "educateur",
       ],
       niveau_scolaire: ["6e", "5e", "4e", "3e", "2nde", "1ere", "Tle"],
       serie_scolaire: ["Aucune", "A", "C", "D", "G"],
