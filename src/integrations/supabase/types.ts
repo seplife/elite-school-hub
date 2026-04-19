@@ -14,6 +14,81 @@ export type Database = {
   }
   public: {
     Tables: {
+      albums: {
+        Row: {
+          auteur_id: string
+          couverture_url: string | null
+          created_at: string
+          date_evenement: string | null
+          description: string | null
+          id: string
+          publie: boolean
+          titre: string
+          updated_at: string
+        }
+        Insert: {
+          auteur_id: string
+          couverture_url?: string | null
+          created_at?: string
+          date_evenement?: string | null
+          description?: string | null
+          id?: string
+          publie?: boolean
+          titre: string
+          updated_at?: string
+        }
+        Update: {
+          auteur_id?: string
+          couverture_url?: string | null
+          created_at?: string
+          date_evenement?: string | null
+          description?: string | null
+          id?: string
+          publie?: boolean
+          titre?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      annonces: {
+        Row: {
+          auteur_id: string
+          categorie: Database["public"]["Enums"]["annonce_categorie"]
+          contenu: string
+          created_at: string
+          epingle: boolean
+          id: string
+          image_url: string | null
+          publie: boolean
+          titre: string
+          updated_at: string
+        }
+        Insert: {
+          auteur_id: string
+          categorie?: Database["public"]["Enums"]["annonce_categorie"]
+          contenu: string
+          created_at?: string
+          epingle?: boolean
+          id?: string
+          image_url?: string | null
+          publie?: boolean
+          titre: string
+          updated_at?: string
+        }
+        Update: {
+          auteur_id?: string
+          categorie?: Database["public"]["Enums"]["annonce_categorie"]
+          contenu?: string
+          created_at?: string
+          epingle?: boolean
+          id?: string
+          image_url?: string | null
+          publie?: boolean
+          titre?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       classes: {
         Row: {
           annee_scolaire: string
@@ -109,6 +184,41 @@ export type Database = {
           },
         ]
       }
+      photos: {
+        Row: {
+          album_id: string
+          created_at: string
+          id: string
+          legende: string | null
+          ordre: number
+          url: string
+        }
+        Insert: {
+          album_id: string
+          created_at?: string
+          id?: string
+          legende?: string | null
+          ordre?: number
+          url: string
+        }
+        Update: {
+          album_id?: string
+          created_at?: string
+          id?: string
+          legende?: string | null
+          ordre?: number
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "photos_album_id_fkey"
+            columns: ["album_id"]
+            isOneToOne: false
+            referencedRelation: "albums"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           created_at: string
@@ -172,6 +282,12 @@ export type Database = {
       is_admin: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
+      annonce_categorie:
+        | "generale"
+        | "pedagogique"
+        | "administrative"
+        | "evenement"
+        | "urgence"
       app_role:
         | "super_admin"
         | "admin"
@@ -310,6 +426,13 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      annonce_categorie: [
+        "generale",
+        "pedagogique",
+        "administrative",
+        "evenement",
+        "urgence",
+      ],
       app_role: [
         "super_admin",
         "admin",
