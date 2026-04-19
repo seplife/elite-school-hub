@@ -11,6 +11,8 @@ import Dashboard from "./pages/app/Dashboard";
 import Eleves from "./pages/app/Eleves";
 import NouvelEleve from "./pages/app/NouvelEleve";
 import Classes from "./pages/app/Classes";
+import Inscriptions from "./pages/app/Inscriptions";
+import Utilisateurs from "./pages/app/Utilisateurs";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,8 @@ const App = () => (
             <Route path="eleves" element={<Eleves />} />
             <Route path="eleves/nouveau" element={<NouvelEleve />} />
             <Route path="classes" element={<Classes />} />
+            <Route path="inscriptions" element={<Inscriptions />} />
+            <Route path="utilisateurs" element={<Utilisateurs />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
