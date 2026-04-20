@@ -22,6 +22,7 @@ import Evaluations from "./pages/app/Evaluations";
 import Notes from "./pages/app/Notes";
 import Bulletins from "./pages/app/Bulletins";
 import Parametres from "./pages/app/Parametres";
+import Examens from "./pages/app/Examens";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
             <Route path="notes" element={<Notes />} />
             <Route path="bulletins" element={<Bulletins />} />
             <Route path="parametres" element={<Parametres />} />
+            <Route path="examens" element={<Examens />} />
             <Route path="utilisateurs" element={<Utilisateurs />} />
           </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
