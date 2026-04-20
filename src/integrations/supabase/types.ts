@@ -286,6 +286,85 @@ export type Database = {
           },
         ]
       }
+      examens: {
+        Row: {
+          annee_scolaire: string
+          classe_id: string
+          created_at: string
+          date_debut: string
+          duree_minutes: number
+          evaluation_id: string | null
+          id: string
+          instructions: string | null
+          matiere_id: string
+          salle: string | null
+          surveillant_id: string | null
+          surveillant_nom: string | null
+          titre: string
+          trimestre: Database["public"]["Enums"]["trimestre"] | null
+          type: Database["public"]["Enums"]["examen_type"]
+          updated_at: string
+        }
+        Insert: {
+          annee_scolaire: string
+          classe_id: string
+          created_at?: string
+          date_debut: string
+          duree_minutes?: number
+          evaluation_id?: string | null
+          id?: string
+          instructions?: string | null
+          matiere_id: string
+          salle?: string | null
+          surveillant_id?: string | null
+          surveillant_nom?: string | null
+          titre: string
+          trimestre?: Database["public"]["Enums"]["trimestre"] | null
+          type?: Database["public"]["Enums"]["examen_type"]
+          updated_at?: string
+        }
+        Update: {
+          annee_scolaire?: string
+          classe_id?: string
+          created_at?: string
+          date_debut?: string
+          duree_minutes?: number
+          evaluation_id?: string | null
+          id?: string
+          instructions?: string | null
+          matiere_id?: string
+          salle?: string | null
+          surveillant_id?: string | null
+          surveillant_nom?: string | null
+          titre?: string
+          trimestre?: Database["public"]["Enums"]["trimestre"] | null
+          type?: Database["public"]["Enums"]["examen_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "examens_classe_id_fkey"
+            columns: ["classe_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "examens_evaluation_id_fkey"
+            columns: ["evaluation_id"]
+            isOneToOne: false
+            referencedRelation: "evaluations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "examens_matiere_id_fkey"
+            columns: ["matiere_id"]
+            isOneToOne: false
+            referencedRelation: "matieres"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       matieres: {
         Row: {
           code: string | null
@@ -499,6 +578,10 @@ export type Database = {
         Returns: boolean
       }
       is_admin: { Args: { _user_id: string }; Returns: boolean }
+      peut_enseigner: {
+        Args: { _classe_id: string; _matiere_id: string }
+        Returns: boolean
+      }
     }
     Enums: {
       annonce_categorie:
@@ -516,6 +599,11 @@ export type Database = {
         | "eleve"
         | "educateur"
       evaluation_type: "devoir" | "composition"
+      examen_type:
+        | "composition"
+        | "devoir_surveille"
+        | "examen_blanc"
+        | "bac_blanc"
       niveau_scolaire: "6e" | "5e" | "4e" | "3e" | "2nde" | "1ere" | "Tle"
       serie_scolaire: "Aucune" | "A" | "C" | "D" | "G"
       sexe_eleve: "M" | "F"
@@ -664,6 +752,12 @@ export const Constants = {
         "educateur",
       ],
       evaluation_type: ["devoir", "composition"],
+      examen_type: [
+        "composition",
+        "devoir_surveille",
+        "examen_blanc",
+        "bac_blanc",
+      ],
       niveau_scolaire: ["6e", "5e", "4e", "3e", "2nde", "1ere", "Tle"],
       serie_scolaire: ["Aucune", "A", "C", "D", "G"],
       sexe_eleve: ["M", "F"],
