@@ -184,6 +184,225 @@ export type Database = {
           },
         ]
       }
+      enseignements: {
+        Row: {
+          classe_id: string
+          coefficient: number
+          created_at: string
+          enseignant_id: string | null
+          id: string
+          matiere_id: string
+          updated_at: string
+        }
+        Insert: {
+          classe_id: string
+          coefficient?: number
+          created_at?: string
+          enseignant_id?: string | null
+          id?: string
+          matiere_id: string
+          updated_at?: string
+        }
+        Update: {
+          classe_id?: string
+          coefficient?: number
+          created_at?: string
+          enseignant_id?: string | null
+          id?: string
+          matiere_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "enseignements_classe_id_fkey"
+            columns: ["classe_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "enseignements_matiere_id_fkey"
+            columns: ["matiere_id"]
+            isOneToOne: false
+            referencedRelation: "matieres"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      evaluations: {
+        Row: {
+          annee_scolaire: string
+          bareme: number
+          classe_id: string
+          created_at: string
+          date_evaluation: string | null
+          id: string
+          matiere_id: string
+          titre: string
+          trimestre: Database["public"]["Enums"]["trimestre"]
+          type: Database["public"]["Enums"]["evaluation_type"]
+          updated_at: string
+        }
+        Insert: {
+          annee_scolaire: string
+          bareme?: number
+          classe_id: string
+          created_at?: string
+          date_evaluation?: string | null
+          id?: string
+          matiere_id: string
+          titre: string
+          trimestre: Database["public"]["Enums"]["trimestre"]
+          type?: Database["public"]["Enums"]["evaluation_type"]
+          updated_at?: string
+        }
+        Update: {
+          annee_scolaire?: string
+          bareme?: number
+          classe_id?: string
+          created_at?: string
+          date_evaluation?: string | null
+          id?: string
+          matiere_id?: string
+          titre?: string
+          trimestre?: Database["public"]["Enums"]["trimestre"]
+          type?: Database["public"]["Enums"]["evaluation_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "evaluations_classe_id_fkey"
+            columns: ["classe_id"]
+            isOneToOne: false
+            referencedRelation: "classes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "evaluations_matiere_id_fkey"
+            columns: ["matiere_id"]
+            isOneToOne: false
+            referencedRelation: "matieres"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      matieres: {
+        Row: {
+          code: string | null
+          created_at: string
+          id: string
+          nom: string
+          ordre: number
+          updated_at: string
+        }
+        Insert: {
+          code?: string | null
+          created_at?: string
+          id?: string
+          nom: string
+          ordre?: number
+          updated_at?: string
+        }
+        Update: {
+          code?: string | null
+          created_at?: string
+          id?: string
+          nom?: string
+          ordre?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      notes: {
+        Row: {
+          appreciation: string | null
+          created_at: string
+          eleve_id: string
+          evaluation_id: string
+          id: string
+          updated_at: string
+          valeur: number | null
+        }
+        Insert: {
+          appreciation?: string | null
+          created_at?: string
+          eleve_id: string
+          evaluation_id: string
+          id?: string
+          updated_at?: string
+          valeur?: number | null
+        }
+        Update: {
+          appreciation?: string | null
+          created_at?: string
+          eleve_id?: string
+          evaluation_id?: string
+          id?: string
+          updated_at?: string
+          valeur?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notes_eleve_id_fkey"
+            columns: ["eleve_id"]
+            isOneToOne: false
+            referencedRelation: "eleves"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notes_evaluation_id_fkey"
+            columns: ["evaluation_id"]
+            isOneToOne: false
+            referencedRelation: "evaluations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      parametres_notation: {
+        Row: {
+          afficher_mention: boolean
+          afficher_rang: boolean
+          bareme: number
+          id: string
+          nom_etablissement: string
+          poids_composition: number
+          poids_devoir: number
+          seuil_assez_bien: number
+          seuil_bien: number
+          seuil_excellent: number
+          seuil_passable: number
+          updated_at: string
+        }
+        Insert: {
+          afficher_mention?: boolean
+          afficher_rang?: boolean
+          bareme?: number
+          id?: string
+          nom_etablissement?: string
+          poids_composition?: number
+          poids_devoir?: number
+          seuil_assez_bien?: number
+          seuil_bien?: number
+          seuil_excellent?: number
+          seuil_passable?: number
+          updated_at?: string
+        }
+        Update: {
+          afficher_mention?: boolean
+          afficher_rang?: boolean
+          bareme?: number
+          id?: string
+          nom_etablissement?: string
+          poids_composition?: number
+          poids_devoir?: number
+          seuil_assez_bien?: number
+          seuil_bien?: number
+          seuil_excellent?: number
+          seuil_passable?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       photos: {
         Row: {
           album_id: string
@@ -296,9 +515,11 @@ export type Database = {
         | "parent"
         | "eleve"
         | "educateur"
+      evaluation_type: "devoir" | "composition"
       niveau_scolaire: "6e" | "5e" | "4e" | "3e" | "2nde" | "1ere" | "Tle"
       serie_scolaire: "Aucune" | "A" | "C" | "D" | "G"
       sexe_eleve: "M" | "F"
+      trimestre: "1" | "2" | "3"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -442,9 +663,11 @@ export const Constants = {
         "eleve",
         "educateur",
       ],
+      evaluation_type: ["devoir", "composition"],
       niveau_scolaire: ["6e", "5e", "4e", "3e", "2nde", "1ere", "Tle"],
       serie_scolaire: ["Aucune", "A", "C", "D", "G"],
       sexe_eleve: ["M", "F"],
+      trimestre: ["1", "2", "3"],
     },
   },
 } as const
