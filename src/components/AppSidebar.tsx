@@ -1,5 +1,5 @@
 import { NavLink, useNavigate } from "react-router-dom";
-import { LayoutDashboard, GraduationCap, School, LogOut, UserCircle2, ClipboardList, ShieldCheck, Megaphone, Images, BookOpen, Layers, ClipboardCheck, Pencil, FileText, Settings } from "lucide-react";
+import { LayoutDashboard, GraduationCap, School, LogOut, UserCircle2, ClipboardList, ShieldCheck, Megaphone, Images, BookOpen, Layers, ClipboardCheck, Pencil, FileText, Settings, CalendarDays } from "lucide-react";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -22,7 +22,8 @@ const items: NavItem[] = [
   { to: "/app/matieres", label: "Matières", icon: BookOpen, roles: ["admin"] },
   { to: "/app/enseignements", label: "Enseignements", icon: Layers, roles: ["admin"] },
   { to: "/app/evaluations", label: "Évaluations", icon: ClipboardCheck, roles: ["admin", "staff"] },
-  { to: "/app/notes", label: "Saisie notes", icon: Pencil, roles: ["admin"] },
+  { to: "/app/notes", label: "Saisie notes", icon: Pencil, roles: ["admin", "staff"] },
+  { to: "/app/examens", label: "Examens", icon: CalendarDays, roles: ["admin", "parent", "staff"] },
   { to: "/app/bulletins", label: "Bulletins", icon: FileText, roles: ["admin", "staff"] },
   { to: "/app/parametres", label: "Paramètres", icon: Settings, roles: ["admin"] },
   { to: "/app/utilisateurs", label: "Utilisateurs", icon: ShieldCheck, roles: ["admin"] },
