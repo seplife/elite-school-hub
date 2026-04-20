@@ -126,6 +126,33 @@ export default function Examens() {
     (e) => e.classe_id === form.classe_id && e.matiere_id === form.matiere_id
   );
 
+  const exportConvocation = (classeId: string) => {
+    const classe = classes.find((c) => c.id === classeId);
+    if (!classe) return;
+    const examensClasse = list.filter((e) => e.classe_id === classeId);
+    if (!examensClasse.length) {
+      toast.error("Aucun examen planifié pour cette classe");
+      return;
+    }
+    genererConvocationPDF({
+      nom_etablissement: "Établissement scolaire",
+      classe: classe.nom,
+      annee_scolaire: classe.annee_scolaire,
+      trimestre: examensClasse[0]?.trimestre || null,
+      examens: examensClasse.map((e) => ({
+        titre: e.titre,
+        type: e.type,
+        matiere: e.matieres?.nom || "",
+        date_debut: e.date_debut,
+        duree_minutes: e.duree_minutes,
+        salle: e.salle,
+        surveillant_nom: e.surveillant_nom,
+        instructions: e.instructions,
+      })),
+    });
+    toast.success("Convocation générée");
+  };
+
   // Calendrier mensuel
   const monthGrid = useMemo(() => {
     const year = cursor.getFullYear();
