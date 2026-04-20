@@ -9,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Trash2, CalendarDays, Clock, MapPin, UserCheck, ChevronLeft, ChevronRight } from "lucide-react";
+import { Plus, Trash2, CalendarDays, Clock, MapPin, UserCheck, ChevronLeft, ChevronRight, FileDown } from "lucide-react";
+import { genererConvocationPDF } from "@/lib/convocation";
 
 interface Examen {
   id: string;
@@ -125,6 +126,33 @@ export default function Examens() {
     (e) => e.classe_id === form.classe_id && e.matiere_id === form.matiere_id
   );
 
+  const exportConvocation = (classeId: string) => {
+    const classe = classes.find((c) => c.id === classeId);
+    if (!classe) return;
+    const examensClasse = list.filter((e) => e.classe_id === classeId);
+    if (!examensClasse.length) {
+      toast.error("Aucun examen planifié pour cette classe");
+      return;
+    }
+    genererConvocationPDF({
+      nom_etablissement: "Établissement scolaire",
+      classe: classe.nom,
+      annee_scolaire: classe.annee_scolaire,
+      trimestre: examensClasse[0]?.trimestre || null,
+      examens: examensClasse.map((e) => ({
+        titre: e.titre,
+        type: e.type,
+        matiere: e.matieres?.nom || "",
+        date_debut: e.date_debut,
+        duree_minutes: e.duree_minutes,
+        salle: e.salle,
+        surveillant_nom: e.surveillant_nom,
+        instructions: e.instructions,
+      })),
+    });
+    toast.success("Convocation générée");
+  };
+
   // Calendrier mensuel
   const monthGrid = useMemo(() => {
     const year = cursor.getFullYear();
@@ -155,13 +183,26 @@ export default function Examens() {
           <CalendarDays className="h-7 w-7 text-primary" />
           <h1 className="text-3xl font-bold">Examens</h1>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 flex-wrap items-center">
           <Button variant={view === "calendar" ? "default" : "outline"} size="sm" onClick={() => setView("calendar")}>
             Calendrier
           </Button>
           <Button variant={view === "list" ? "default" : "outline"} size="sm" onClick={() => setView("list")}>
             Liste
           </Button>
+          <Select onValueChange={exportConvocation}>
+            <SelectTrigger className="w-[210px] h-9">
+              <div className="flex items-center gap-1">
+                <FileDown className="h-4 w-4" />
+                <SelectValue placeholder="Convocation PDF…" />
+              </div>
+            </SelectTrigger>
+            <SelectContent>
+              {classes.map((c) => (
+                <SelectItem key={c.id} value={c.id}>{c.nom}</SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
           {isAdmin && (
             <Dialog open={open} onOpenChange={setOpen}>
               <DialogTrigger asChild>
