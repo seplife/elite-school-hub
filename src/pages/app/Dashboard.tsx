@@ -5,9 +5,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { GraduationCap, School, Users, ArrowRight, BookUser, Wallet, ShieldCheck, ClipboardList, UserCheck } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { PlanningEnseignant } from "@/components/dashboard/PlanningEnseignant";
 
 const Dashboard = () => {
-  const { user, isAdmin, isParent } = useAuth();
+  const { user, isAdmin, isParent, roles } = useAuth();
+  const isEnseignant = roles.includes("enseignant");
   const [stats, setStats] = useState({
     elevesActifs: 0,
     elevesAttente: 0,
@@ -91,6 +93,8 @@ const Dashboard = () => {
           />
         </div>
       </section>
+
+      {isEnseignant && <PlanningEnseignant />}
 
       {isAdmin && (
         <section className="space-y-3">

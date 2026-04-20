@@ -9,7 +9,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { toast } from "sonner";
-import { Plus, Trash2, CalendarDays, Clock, MapPin, UserCheck, ChevronLeft, ChevronRight } from "lucide-react";
+import { Plus, Trash2, CalendarDays, Clock, MapPin, UserCheck, ChevronLeft, ChevronRight, FileDown } from "lucide-react";
+import { genererConvocationPDF } from "@/lib/convocation";
 
 interface Examen {
   id: string;
